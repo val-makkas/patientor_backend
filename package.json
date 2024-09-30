@@ -5,6 +5,7 @@
     "@types/cors": "^2.8.17",
     "@types/eslint__js": "^8.42.3",
     "@types/express": "^5.0.0",
+    "@types/uuid": "^10.0.0",
     "eslint": "^9.11.1",
     "express": "^4.21.0",
     "install": "^0.13.0",
@@ -20,6 +21,7 @@
     "start": "node build/src/index.js"
   },
   "dependencies": {
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "uuid": "^10.0.0"
   }
 }
