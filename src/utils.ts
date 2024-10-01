@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { Gender, toNewPatient } from "./types";
 
 export const toNewPatientEntry = (object: unknown): toNewPatient => {
@@ -8,66 +9,25 @@ export const toNewPatientEntry = (object: unknown): toNewPatient => {
 
     if ('name' in object && 'dateOfBirth' in object && 'ssn' in object && 'gender' in object && 'occupation' in object){
         const newPatient: toNewPatient = {
-            name: parseName(object.name),
-            dateOfBirth: parseDate(object.dateOfBirth),
-            ssn: parseSSN(object.ssn),
-            gender: parseGender(object.gender),
-            occupation: parseOccupation(object.occupation)
+            name: z.string().parse(object.name),
+            dateOfBirth: z.string().date().parse(object.dateOfBirth),
+            ssn: z.string().parse(object.ssn),
+            gender: z.nativeEnum(Gender).parse(object.gender),
+            occupation: z.string().parse(object.occupation),
         };
+
+        /* const newPatientEntry = z.object({
+            name: z.string(),
+            dateOfBirth: z.string().date(),
+            ssn: z.string(),
+            gender: z.nativeEnum(Gender),
+            occupation: z.string(),
+        }); */
     
         return newPatient;
     };
 
     throw new Error('Incorrect data some fields are missing');
-};
-
-const parseName = (name: unknown): string => {
-    if (!name || !isString(name)){
-        throw new Error('Incorrect or missing name.');
-    };
-
-    return name;
-};
-
-const parseDate = (date: unknown): string => {
-    if (!date || !isString(date) || !isDate(date)) {
-        throw new Error('Incorrect or missing date');
-    };
-    return date;
-};
-
-const parseSSN = (ssn: unknown): string => {
-    if (!ssn || !isString(ssn)){
-        throw new Error('Incorrect or missing ssn.');
-    };
-
-    return ssn;
-};
-
-const parseGender = (gender: unknown): Gender => {
-    if (!gender || !isString(gender) || !isGender(gender))
-        throw new Error('Incorrent or missing gender.');
-
-    return gender;
-};
-
-const parseOccupation = (ocuppation: unknown): string => {
-    if (!ocuppation || !isString(ocuppation))
-        throw new Error('Incorrect or missing occupation');
-
-    return ocuppation;
-};
-
-const isString = (text: unknown): text is string => {
-    return typeof text === 'string' || text instanceof String;
-};
-
-const isDate = (date: string): boolean => {
-    return Boolean(Date.parse(date));
-};
-
-const isGender = (param: string): param is Gender => {
-    return Object.values(Gender).map(v => v.toString()).includes(param);
 };
 
 export default toNewPatientEntry;

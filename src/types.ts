@@ -13,13 +13,7 @@ export interface Patient {
     occupation: string
 }
 
-export interface toNewPatient {
-    name: string,
-    dateOfBirth: string,
-    ssn: string,
-    gender: string,
-    occupation: string
-}
+export type toNewPatient = Omit<Patient, 'id'>;
 
 export interface SensitivePatient {
     id: string,
