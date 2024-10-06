@@ -14,6 +14,7 @@ export const toNewPatientEntry = (object: unknown): toNewPatient => {
             ssn: z.string().parse(object.ssn),
             gender: z.nativeEnum(Gender).parse(object.gender),
             occupation: z.string().parse(object.occupation),
+            entries: []
         };
 
         /* const newPatientEntry = z.object({
